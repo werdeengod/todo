@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\CreateTodoRequest;
 use App\Models\Todo;
 use App\Services\TodoService;
+use App\Http\Requests\CreateTodoRequest;
 
 class TodoController extends Controller
 {
@@ -13,13 +15,13 @@ class TodoController extends Controller
         private TodoService $todoService
     ) {}
 
-    public function index() 
+    public function index(): View 
     {
         $todos = Auth::user()->todos()->get();
         return view('todo', ['todos' => $todos]);
     }
 
-    public function store(CreateTodoRequest $request) 
+    public function store(CreateTodoRequest $request): RedirectResponse 
     {   
         $this->todoService->store(
             $request->get('title'), 
@@ -29,7 +31,7 @@ class TodoController extends Controller
         return redirect()->route('todos.index');
     }
 
-    public function destroy(Todo $todo) 
+    public function destroy(Todo $todo): RedirectResponse 
     {
         $this->authorize('delete', $todo);
         $todo->delete();
