@@ -3,16 +3,17 @@
 namespace App\Services;
 
 use App\Models\Todo;
+use App\DTO\CreateTaskDTO;
 
-class TodoService
+class TaskService
 {
-    public function store(string $title, int $userId): Todo 
+    public function store(CreateTaskDTO $data): Todo 
     {
         // Выносим логику создания в сервис для будущего расширения
 
         return Todo::create([
-            'title' => $title,
-            'user_id' => $userId
+            'title' => $data->title,
+            'user_id' => $data->userId
         ]);
     }
 }

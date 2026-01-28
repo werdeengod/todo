@@ -6,13 +6,13 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Todo;
-use App\Services\TodoService;
-use App\Http\Requests\CreateTodoRequest;
+use App\Services\TaskService;
+use App\Http\Requests\CreateTaskRequest;
 
-class TodoController extends Controller
+class TaskController extends Controller
 {
     public function __construct(
-        private TodoService $todoService
+        private TaskService $todoService
     ) {}
 
     public function index(): View 
@@ -21,13 +21,9 @@ class TodoController extends Controller
         return view('todo', ['todos' => $todos]);
     }
 
-    public function store(CreateTodoRequest $request): RedirectResponse 
+    public function store(CreateTaskRequest $request): RedirectResponse 
     {   
-        $this->todoService->store(
-            $request->get('title'), 
-            Auth::id()
-        );
-        
+        $this->todoService->store($request->toDTO());
         return redirect()->route('todos.index');
     }
 

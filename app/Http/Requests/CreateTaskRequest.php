@@ -4,8 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
+use App\DTO\CreateTaskDTO;
 
-class CreateTodoRequest extends FormRequest
+class CreateTaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,5 +30,15 @@ class CreateTodoRequest extends FormRequest
                 'max:255'
             ]
         ];
+    }
+
+    public function toDTO(): CreateTaskDTO
+    {
+        $data = $this->validated();
+
+        return new CreateTaskDTO(
+            title: $data['title'],
+            userId: Auth::id()
+        );
     }
 }

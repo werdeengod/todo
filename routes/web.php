@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{ AuthenticatedSessionController, RegisteredUserController };
-use App\Http\Controllers\TodoController;
+use App\Http\Controllers\{ AuthenticatedSessionController, RegisteredUserController, TaskController };
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 
-    Route::resource('/todos', TodoController::class)
+    Route::resource('/todos', TaskController::class)
         ->only('index', 'store', 'destroy')
         ->names([
             'index' => 'todos.index',
